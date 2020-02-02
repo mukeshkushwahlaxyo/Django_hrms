@@ -15,7 +15,7 @@ class Employee(models.Model):
     desg_id = models.IntegerField(null=True)
     grade_id = models.IntegerField(null=True)
     emp_name = models.CharField(max_length=255,null=True)
-    emp_img = models.TextField(null=True)
+    emp_img = models.ImageField(upload_to='images/',null=True)
     emp_gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True)
     emp_dob = models.DateField(null=True)
     curr_addr = models.TextField(null=True)
@@ -62,12 +62,14 @@ class StatusMast(models.Model):
 class TypesMast(models.Model):
     name= models.CharField(max_length=50,null=True)
     description= models.TextField(null=True)
+
 class AcademicsMast(models.Model):
     doman_of_study= models.CharField(max_length=50,null=True)
+    emp_id= models.IntegerField(null=True)
     name_of_board= models.CharField(max_length=50,null=True)
     complete_in = models.DateField(null=True)  
     gared   = models.CharField(max_length=10,null=True)     
-    document = models.CharField(max_length=255,null=True)     
+    document = models.FileField(upload_to='acedmic/',null=True)     
     note = models.TextField(max_length=255,null=True)     
 
 class Experience(models.Model):
@@ -83,15 +85,21 @@ class Experience(models.Model):
 
 class BankDetails(models.Model):
     accou_hol_name = models.CharField(max_length=255,null=True)
+    emp_id = models.IntegerField(null=True)
     accou_num = models.CharField(max_length=255,null=True)
     bank_name = models.CharField(max_length=255,null=True)
-    ifsc_code = models.FloatField(null=True)
+    ifsc_code = models.CharField(max_length=255,null=True)
     branch = models.CharField(max_length=255,null=True)
-    document = models.CharField(max_length=255,null=True)
+    document = models.ImageField(upload_to='bankdoc/',null=True)
     note = models.TextField(max_length=255,null=True)    
 
 class Document(models.Model):
+    STATUS_CHOICES = (
+        ('Provided', 'Provided'),
+        ('Submitted', 'Submitted'),
+    )
+    emp_id = models.IntegerField(null=True)
     document_title = models.CharField(max_length=255,null=True)
-    document_status = models.CharField(max_length=55,null=True)
+    document_status = models.CharField(max_length=55,choices=STATUS_CHOICES,null=True)
     note = models.TextField(null=True)
-    files = models.CharField(max_length=255,null=True)
+    files = models.ImageField(upload_to='otherdocs/',null=True)

@@ -25,3 +25,4 @@ urlpatterns = [
     path('logout', views.HomePage.logout_view,name='logout'),
     path('dashboard', views.HomePage.index,name='dashboard'),
 ]
+

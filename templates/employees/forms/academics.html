@@ -1,4 +1,4 @@
-<form method="post" action="{% url 'save_employee' %}">
+<form method="post" id='academics' enctype="multipart/form-data">
   {% csrf_token %} 
   <div class="row ml-2 mt-5 ">  
       <div class="col-md-1"></div> 
@@ -17,7 +17,7 @@
 
               <div class="col-md-4">
                   <label>{{form.complete_in.label}}</label>
-                  <input id="inputEmail" name="{{form.complete_in.name}}" class="form-control" placeholder="" autofocus="">
+                  <input id="datepicker" name="{{form.complete_in.name}}" class="form-control" placeholder="" autofocus="">
                   <p style="" class="text-denger">{{form.complete_in.errors}}</p>
               </div> 
 
@@ -39,7 +39,86 @@
               <div class="col-md-12 text-center mb-4">
                   <input type="submit" value="Submit" class="btn btn-primary">
               </div>
+              <input type="hidden" name="{{form.emp_id.name}}" value="{{id}}">
           </div>
       </div> 
   </div>
 </form>
+<div class="row">
+  <div class="col-md-1 col-sm-1"></div>
+  <div class="col-sm-10">
+      <div class="table-responsive" id="academicsTable"> 
+      <table class="table" id="myTable1">
+    <thead>
+      <tr>
+          <th scope="col">Sno.</th>
+          <th scope="col">Doman of study</th>
+          <th scope="col">Name of board</th>
+          <th scope="col">Complete in</th>
+          <th scope="col">Grade</th>
+          <th scope="col">Note</th>
+          <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for Data in data %}
+      <tr>
+          <td>{{forloop.counter}}</td>
+          <td>{{Data.doman_of_study}}</td>
+          <td>{{Data.name_of_board}}</td>
+          <td>{{Data.complete_in}}</td>
+          <td>{{Data.grade}}</td>
+          <td>{{Data.note}}</td>
+          <td>
+            <a href="delete_employee/{{users.id}}" class="fa fa-trash mr-1"></a>
+            <a href="edit_employee/{{users.id}}" class="fas fa-edit"></a>
+            <a href="showTabs/main/{{users.id}}"  class="fa fa-eye"></a>
+          </td>
+        </tr>
+    </tbody>    
+      {% endfor %}
+    </table>     
+    </div>  
+  </div>
+  <div class="col-md-1 col-sm-1"></div>
+</div>
+<script type="text/javascript">
+  
+
+  $(document).ready(function(){
+     $('#datepicker').datepicker({dateFormat: 'yy-mm-dd' });
+  });
+
+  $(document).on('submit','#academics',function(event){
+    event.preventDefault()
+    var id = $('#userId').val();
+    $.ajaxSetup({ 
+     beforeSend: function(xhr, settings) {
+         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+             // Only send the token to relative URLs i.e. locally.
+             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+               }
+           } 
+      });
+    $.ajax({
+        type:'POST',
+        url:'/hrd/showTabs/academics/'+id,
+        async: true,
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        data:new FormData($('#academics').get(0)),
+        success:function(data, textStatus, xhr){
+          if(xhr.status == 200){
+            $.notify("Data Save", "success");
+            $('#academicsTable').html(data)
+          }
+          if(xhr.status != 200 || xhr.status == 202 ){
+            $('#showForms').html(data)
+          }
+        }
+    })
+
+  })
+</script>

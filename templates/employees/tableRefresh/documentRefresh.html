@@ -1,0 +1,28 @@
+<table class="table" id="myTable1">
+      <thead>
+        <tr>
+            <th scope="col">Sno.</th>
+            <th scope="col">Document Title</th>
+            <th scope="col">Document status</th>
+            <th scope="col">Note</th>
+            <th scope="col">Files</th>
+            <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for Data in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{Data.document_title}}</td>
+            <td>{{Data.document_status}}</td>
+            <td>{{Data.note}}</td>
+            <td>{{Data.files}}</td>
+            <td>
+              <a href="delete_employee/{{users.id}}" class="fa fa-trash mr-1"></a>
+              <a href="edit_employee/{{users.id}}" class="fas fa-edit"></a>
+              <a href="showTabs/main/{{users.id}}"  class="fa fa-eye"></a>
+            </td>
+          </tr>
+      </tbody>    
+      {% endfor %}
+    </table>

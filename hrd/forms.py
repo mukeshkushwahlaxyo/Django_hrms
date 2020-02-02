@@ -40,9 +40,12 @@ class OfficeInfo(ModelForm):
              'reports_to':'Reports To',
          } 
 class AcademicsInfo(ModelForm):
+    document = forms.CharField(required=False)
+    note = forms.CharField(required=False)
+    emp_id = forms.CharField(required=False)
     class Meta(ModelForm):
         model = AcademicsMast
-        fields = ('doman_of_study','name_of_board','complete_in','gared','document','note',)
+        fields = ('doman_of_study','name_of_board','complete_in','gared','document','note','emp_id')
         labels = {
              'doman_of_study':'Domain Of Study',
              'name_of_board':'Name Of Board',
@@ -50,12 +53,15 @@ class AcademicsInfo(ModelForm):
              'gared':'Gared',
              'document':'Document',    
              'note':'Note',
-            } 
+             } 
 
 class BankInfo(ModelForm):
+    document = forms.CharField(required=False)
+    note = forms.CharField(required=False)
+    emp_id = forms.IntegerField(required=False)
     class Meta(ModelForm):
         model = BankDetails
-        fields =('accou_hol_name','accou_num','bank_name','ifsc_code','branch','document','note')
+        fields =('accou_hol_name','accou_num','bank_name','ifsc_code','branch','document','note','emp_id')
         labels={
             'accou_hol_name':'Account Holder Name',
             'accou_num':'Account Number',
@@ -68,8 +74,9 @@ class BankInfo(ModelForm):
 
 class Documents(ModelForm):
     class Meta(ModelForm):
-        model = Document
-        fields = ('document_title','document_status','note','files',)
+        emp_id = forms.CharField(required=False)
+        model  = Document
+        fields = ('document_title','document_status','note','files','emp_id')
         labels={
             'document_title':'Document Title',
             'document_status':'Document Status',
